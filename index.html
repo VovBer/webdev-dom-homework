@@ -57,7 +57,7 @@
           rows="4"
         ></textarea>
         <div class="add-form-row">
-          <button id="add-button" class="add-form-button">Написать</button>
+          <button id="add-button" disabled class="add-form-button">Написать</button> <!-- добавил disabled, чтобы кнопка была неклиикабельной при незаполненных полях ввода -->
         </div>
       </div>
     </div>
@@ -76,10 +76,12 @@
     const textInputElement = document.getElementById("text-input");
     const currentDate = new Date().toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0,-3);
 
+    // 1 доп дз функция реализует работу кнопки при незаполненных полях ввода, становиться некликабельной.
+
     function input() {
-      if (nameInputElement.value == "" || textInputElement.value == ""){
-        console.log(4);
-        buttonElement.setAttribute("disabled", true);
+      if (nameInputElement.value == "" || textInputElement.value == ""){ 
+        console.log(4);                                                  
+        buttonElement.setAttribute("disabled", true);  
       } else {
         buttonElement.removeAttribute("disabled");
       }
@@ -87,6 +89,16 @@
 
     nameInputElement.addEventListener("input", input);
     textInputElement.addEventListener("input", input);
+
+    // 2 доп задание. данное условие реализует нажатие на кнопку с помощью клавиатуры Enter
+      
+    document.addEventListener("keyup", function (enter) {
+    if (enter.keyCode == 13) {
+      buttonElement.click();
+    }
+  });
+
+  // оснвное задание
     
     buttonElement.addEventListener('click', () => {
       nameInputElement.classList.remove("error");
@@ -99,7 +111,7 @@
         return;
       }
 
-      const oldListElement = listElement.innerHTML;
+      const oldListElement = listElement.innerHTML; // к старому списку добавляем новый
       listElement.innerHTML = oldListElement + `<li class="comment">
           <div class="comment-header">
             <div>${nameInputElement.value}</div>
@@ -119,12 +131,9 @@
         </li>`;
     
         nameInputElement.value = "";
-        textInputElement.value = "";
-        // сделал комментарий
-        // коммент 2
-        
+        textInputElement.value = "";    
 
-    })
+    });
     console.log("It works!");
   </script>
 </html>
