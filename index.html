@@ -77,7 +77,8 @@
     const currentDate = new Date().toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0,-3);
 
     function input() {
-      if (nameInputElement == "" || textInputElement == ""){
+      if (nameInputElement.value == "" || textInputElement.value == ""){
+        console.log(4);
         buttonElement.setAttribute("disabled", true);
       } else {
         buttonElement.removeAttribute("disabled");
