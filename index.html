@@ -77,6 +77,7 @@
     const textInputElement = document.getElementById("text-input");
     const currentDate = new Date().toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0,-3);
     const likeButtonElements = document.querySelectorAll('.like-button');
+    const textElements = document.querySelectorAll('.comment');
 
     const forms = [
     {
@@ -104,7 +105,8 @@
     // Циклом for of проходим по каждому элементу в списке
     for (const likeButtonElement of likeButtonElements){
     // Добавляет обработчик клика на каждый элемент в списке
-      likeButtonElement.addEventListener('click', () => {
+      likeButtonElement.addEventListener('click', (event) => {
+        event.stopPropagation();
         const likeButtonElementIndex = likeButtonElement.dataset.index;
         const listElement = forms[likeButtonElementIndex];
 
@@ -123,11 +125,27 @@
     }
     };
 
+     // дз 11 
+
+  const getTextElement = () => {
+
+const textElements = document.querySelectorAll('.comment');
+
+for (const textElement of textElements){
+  textElement.addEventListener('click', () => {
+    const textElementIndex = textElement.dataset.index;
+    console.log(forms[textElementIndex].text);
+    textInputElement.value = `${forms[textElementIndex].name}:\n${forms[textElementIndex].text}`;  
+  });
+}
+};
+getTextElement(); 
+
   const renderForms = () => {
 
       const formsHtml = forms.map((form, index) => {
         
-        return `<li class="comment">
+        return `<li class="comment" data-index="${index}">
           <div class="comment-header">
             <div>${form.name}</div>
             <div>${form.date}</div>
@@ -148,12 +166,10 @@
 
       listElement.innerHTML = formsHtml;
       getLikeButton(); 
+      getTextElement();
     };
     renderForms();
-
-
     
-
 
     // 1 доп дз функция реализует работу кнопки при незаполненных полях ввода, становиться некликабельной.
 
