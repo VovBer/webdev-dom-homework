@@ -107,7 +107,7 @@
     // Добавляет обработчик клика на каждый элемент в списке
       likeButtonElement.addEventListener('click', (event) => {
         event.stopPropagation();
-        const likeButtonElementIndex = likeButtonElement.dataset.index;
+        const likeButtonElementIndex = likeButtonElement.dataset.index; // создаем переменную для определения области клика
         const listElement = forms[likeButtonElementIndex];
 
         if (listElement.like){
@@ -133,9 +133,9 @@ const textElements = document.querySelectorAll('.comment');
 
 for (const textElement of textElements){
   textElement.addEventListener('click', () => {
-    const textElementIndex = textElement.dataset.index;
+    const textElementIndex = textElement.dataset.index;  // создаем переменную для определения области клика
     console.log(forms[textElementIndex].text);
-    textInputElement.value = `${forms[textElementIndex].name}:\n${forms[textElementIndex].text}`;  
+    textInputElement.value = `${forms[textElementIndex].name}:\n${forms[textElementIndex].text}`;  // \n для переноса текста
   });
 }
 };
