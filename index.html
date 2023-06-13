@@ -207,9 +207,13 @@ getTextElement();
       }
 
       forms.push({
-        name: nameInputElement.value,
+        name: nameInputElement.value
+        .replaceAll("<", "&lt")       // для безопасности заменяем начало и конец тега < и > на спецсимволы &lt и &gt
+        .replaceAll(">", "&gt"),
         date: currentDate,
-        text: textInputElement.value,
+        text: textInputElement.value
+        .replaceAll("<", "&lt")       // для безопасности заменяем начало и конец тега < и > на спецсимволы &lt и &gt
+        .replaceAll(">", "&gt"),
         like: false,
         likesNumber: 0,
         propertyColorLike: 'like-button -no-active-like',
