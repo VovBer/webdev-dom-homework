@@ -9,7 +9,8 @@
   <body>
     <div class="container">
       <ul id="list" class="comments">
-        <li class="comment">
+        <!-- Список рендерится из JS -->
+        <!--<li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
             <div>12.02.22 12:18</div>
@@ -42,7 +43,7 @@
               <button class="like-button -active-like"></button>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
       <div class="add-form">
         <input id="name-input"
@@ -75,12 +76,106 @@
     const nameInputElement = document.getElementById("name-input");
     const textInputElement = document.getElementById("text-input");
     const currentDate = new Date().toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0,-3);
+    const likeButtonElements = document.querySelectorAll('.like-button');
+    const textElements = document.querySelectorAll('.comment');
+
+    const forms = [
+    {
+      name: 'Глеб Фокин',
+      date: '12.02.22 12:18',
+      text: 'Это будет первый комментарий на этой страницe',
+      like: false,
+      likesNumber: 3,
+      propertyColorLike: 'like-button -no-active-like',
+    },
+    {
+      name: 'Варвара Н.',
+      date: '13.02.22 19:22',
+      text: 'Мне нравится как оформлена эта страница! ❤',
+      like: false,
+      likesNumber: 75,
+      propertyColorLike: 'like-button no-active-like',
+    },
+  ];
+
+  // Добавляет обработчики ко всем элементам с классом like-button
+  const getLikeButton = () => { 
+    // Находит все элементы с классом like-button в разметке  
+      const likeButtonElements = document.querySelectorAll('.like-button'); 
+    // Циклом for of проходим по каждому элементу в списке
+    for (const likeButtonElement of likeButtonElements){
+    // Добавляет обработчик клика на каждый элемент в списке
+      likeButtonElement.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const likeButtonElementIndex = likeButtonElement.dataset.index; // создаем переменную для определения области клика
+        const listElement = forms[likeButtonElementIndex];
+
+        if (listElement.like){
+          listElement.likesNumber -= 1;
+          listElement.like = false;
+          listElement.propertyColorLike = 'like-button no-active-like';
+        } else {
+          listElement.likesNumber += 1;
+          listElement.like = true;
+          listElement.propertyColorLike = 'like-button -active-like';
+        }
+        renderForms();
+        //console.log(likeButtonElement.dataset.index);                // здесь надо реализовать if else
+      });
+    }
+    };
+
+     // дз 11 
+
+  const getTextElement = () => {
+
+const textElements = document.querySelectorAll('.comment');
+
+for (const textElement of textElements){
+  textElement.addEventListener('click', () => {
+    const textElementIndex = textElement.dataset.index;  // создаем переменную для определения области клика
+    console.log(forms[textElementIndex].text);
+    textInputElement.value = `${forms[textElementIndex].name}:\n${forms[textElementIndex].text}`;  // \n для переноса текста
+  });
+}
+};
+getTextElement(); 
+
+  const renderForms = () => {
+
+      const formsHtml = forms.map((form, index) => {
+        
+        return `<li class="comment" data-index="${index}">
+          <div class="comment-header">
+            <div>${form.name}</div>
+            <div>${form.date}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${form.text}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${form.likesNumber}</span>
+              <button data-index="${index}" class='${form.propertyColorLike}'></button>
+            </div>
+          </div>
+        </li>`;
+      }).join('');
+
+      listElement.innerHTML = formsHtml;
+      getLikeButton(); 
+      getTextElement();
+    };
+    renderForms();
+    
 
     // 1 доп дз функция реализует работу кнопки при незаполненных полях ввода, становиться некликабельной.
 
     function input() {
       if (nameInputElement.value == "" || textInputElement.value == ""){ 
-        console.log(4);                                                  
+        //console.log(4);                                                  
         buttonElement.setAttribute("disabled", true);  
       } else {
         buttonElement.removeAttribute("disabled");
@@ -111,24 +206,41 @@
         return;
       }
 
-      const oldListElement = listElement.innerHTML; // к старому списку добавляем новый
-      listElement.innerHTML = oldListElement + `<li class="comment">
-          <div class="comment-header">
-            <div>${nameInputElement.value}</div>
-            <div>${currentDate}</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              ${textInputElement.value}
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter"></span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>`;
+      forms.push({
+        name: nameInputElement.value
+        .replaceAll("<", "&lt")       // для безопасности заменяем начало и конец тега < и > на спецсимволы &lt и &gt
+        .replaceAll(">", "&gt"),
+        date: currentDate,
+        text: textInputElement.value
+        .replaceAll("<", "&lt")       // для безопасности заменяем начало и конец тега < и > на спецсимволы &lt и &gt
+        .replaceAll(">", "&gt"),
+        like: false,
+        likesNumber: 0,
+        propertyColorLike: 'like-button -no-active-like',
+    });
+
+    renderForms();
+
+      //const oldListElement = listElement.innerHTML; // к старому списку добавляем новый
+      //listElement.innerHTML = oldListElement + `<li class="comment">
+          //<div class="comment-header">
+            //<div>${nameInputElement.value}</div>
+            //<div>${currentDate}</div>
+          //</div>
+          //<div class="comment-body">
+            //<div class="comment-text">
+             // ${textInputElement.value}
+            //</div>
+         // </div>
+          //<div class="comment-footer">
+            //<div class="likes">
+              //<span class="likes-counter"></span>
+              //<button data-index="${index}" class="like-button -active-like"></button>
+            //</div>
+         // </div>
+       // </li>`;
+
+        //getLikeButton();
     
         nameInputElement.value = "";
         textInputElement.value = "";    
