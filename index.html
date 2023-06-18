@@ -299,9 +299,9 @@ getTextElement();
     fetchPromise.then((response) => {
      //console.log(response);             для проверки
 
-      const jsonPromise = response.json();
+      // const jsonPromise = response.json();
 
-      jsonPromise.then((responseData) => {
+      response.json().then((responseData) => {
         fetchPromiseArr();                    // вызываем функцию так как для получения актуального списка из API нужен новый 
                                               // GET-запрос. Делаем это через функцию, которую мы создали при запросе данных.
       });
