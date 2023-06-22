@@ -79,55 +79,66 @@
     const likeButtonElements = document.querySelectorAll('.like-button');
     const textElements = document.querySelectorAll('.comment');
 
+    const getCurrentDate = (date) => {
+    return date.getDate().toString().padStart(2, '0') + '.' +
+      (date.getMonth() + 1).toString().padStart(2, '0') + '.' +
+      date.getFullYear().toString().slice(-2) + " " +
+      date.toLocaleTimeString().slice(0, -3);
+    };
+
 // Запросы API асинхронны
     
 
 
 // Массив forms нам надо получать из хранилища данных
-    //const forms = [
-    //{
+    // const forms = [
+    // {
     //  name: 'Глеб Фокин',
     //  date: '12.02.22 12:18',
     //  text: 'Это будет первый комментарий на этой страницe',
     //  like: false,
     //  likesNumber: 3,
     //  propertyColorLike: 'like-button -no-active-like',
-  //  },
-  //  {
-      //name: 'Варвара Н.',
-      //date: '13.02.22 19:22',
-      //text: 'Мне нравится как оформлена эта страница! ❤',
-      //like: false,
-      //likesNumber: 75,
-      //propertyColorLike: 'like-button no-active-like',
-    //},
-  //];
+    //  },
+    //  {
+    //  name: 'Варвара Н.',
+    //  date: '13.02.22 19:22',
+    //  text: 'Мне нравится как оформлена эта страница! ❤',
+    //  like: false,
+    //  likesNumber: 75,
+    //  propertyColorLike: 'like-button no-active-like',
+    //  },
+    // ];
 
 // дз 12 получаем данные с сервера
   let forms = [];
 
-    function fetchPromiseArr () {
+    function fetchPromiseArr() {
         
-    const fetchPromise = fetch(
+     //const fetchPromise = fetch(
+     // 'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
+     // {
+     //  method: "GET"
+     // });
+    //console.log(fetchPromise);          для проверки
+
+    return fetch(
       'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
       {
        method: "GET"
-      });
-    //console.log(fetchPromise);          для проверки
-
-    fetchPromise.then((response) => {
+      }).then((response) => {
      //console.log(response);             для проверки
 
-      const jsonPromise = response.json();
+     // const jsonPromise = response.json();
 
-      jsonPromise.then((responseData) => {
+     response.json().then((responseData) => {
         console.log(responseData);
         const appForms = responseData.comments.map((form) => {
           return {
             // Достаем имя автора
             name: form.author.name,
-            // Преобразовываем дату-чтроку в Date
-            date: currentDate,
+            // Преобразовываем дату-Cтроку в Date
+            date: getCurrentDate(new Date(form.date)),
             text: form.text,
             like: false,
             likesNumber: form.likes,
@@ -214,6 +225,8 @@ getTextElement();
       getLikeButton(); 
       getTextElement();
     };
+    
+    fetchPromiseArr();
     renderForms();
     
 
@@ -271,7 +284,107 @@ getTextElement();
     //renderForms();
 
 // дз 12 добавляем элементы в список и сохраняем их в списке на сервере
-    const fetchPromise = fetch(
+    //const fetchPromise = fetch(
+    //  'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
+    //  {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //    name: nameInputElement.value
+    //      .replaceAll("&", "&amp;")
+    //      .replaceAll("<", "&lt;")
+    //      .replaceAll(">", "&gt;")
+    //      .replaceAll('"', "&quot;"),
+    //    date: currentDate,
+    //    text: textInputElement.value
+    //      .replaceAll("&", "&amp;")
+    //      .replaceAll("<", "&lt;")
+    //      .replaceAll(">", "&gt;")
+    //      .replaceAll('"', "&quot;")
+    //      .replaceAll('QUOTE_BEGIN', "<div class='comment-quote'><b>")
+    //      .replaceAll('QUOTE_END', "</b></div>"),
+    //    isLiked: false,
+    //    likes: 0,
+    //    propertyColorLike: 'like-button no-active-like',
+    //   }),
+    //  })
+    //console.log(fetchPromise);          для проверки
+
+    //fetch(
+    //  'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
+    //  {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //    name: nameInputElement.value
+    //      .replaceAll("&", "&amp;")
+    //      .replaceAll("<", "&lt;")
+    //      .replaceAll(">", "&gt;")
+    //      .replaceAll('"', "&quot;"),
+    //    date: currentDate,
+    //    text: textInputElement.value
+    //      .replaceAll("&", "&amp;")
+    //      .replaceAll("<", "&lt;")
+    //      .replaceAll(">", "&gt;")
+    //      .replaceAll('"', "&quot;")
+    //      .replaceAll('QUOTE_BEGIN', "<div class='comment-quote'><b>")
+    //      .replaceAll('QUOTE_END', "</b></div>"),
+    //    isLiked: false,
+    //    likes: 0,
+    //    propertyColorLike: 'like-button no-active-like',
+    //   }),
+    //  }).then((response) => {
+     //console.log(response);             для проверки
+
+      // const jsonPromise = response.json();
+
+    //  response.json().then((responseData) => {
+    //    const fetchPromise = fetch(
+    //  'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
+    //  {
+    //   method: "GET"
+    //  });
+    //console.log(fetchPromise);          для проверки
+
+    //fetch(
+    //  'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
+    //  {
+    //   method: "GET"
+    //  }).then((response) => {
+     //console.log(response);             для проверки
+
+    //  const jsonPromise = response.json();
+
+    //  jsonPromise.then((responseData) => {
+    //    console.log(responseData);
+    //    const appForms = responseData.comments.map((form) => {
+    //      return {
+            // Достаем имя автора
+    //        name: form.author.name,
+            // Преобразовываем дату-чтроку в Date
+    //        date: currentDate,
+    //        text: form.text,
+    //        like: false,
+    //        likesNumber: form.likes,
+    //        propertyColorLike: 'like-button -no-active-like',
+    //      };
+    //    });
+
+    //    forms = appForms;
+    //    renderForms();
+
+    //  });
+    // });                    // вызываем функцию так как для получения актуального списка из API нужен новый 
+                                              // GET-запрос. Делаем это через функцию, которую мы создали при запросе данных.
+    //  });
+   // });
+
+
+    const startAt = Date.now();
+    console.log("начинаем делать запрос");
+
+    buttonElement.disabled = true;                          // делаем кнопку неактивной на время запроса
+    buttonElement.textContent = 'Элемент добавляется...';   // textContent это альтернатива innerHtml, только безопсное...
+
+    fetch(
       'https://wedev-api.sky.pro/api/v1/vladimir-berezhnov/comments', 
       {
        method: "POST",
@@ -281,7 +394,7 @@ getTextElement();
           .replaceAll("<", "&lt;")
           .replaceAll(">", "&gt;")
           .replaceAll('"', "&quot;"),
-        date: currentDate,
+        date: getCurrentDate(new Date()),
         text: textInputElement.value
           .replaceAll("&", "&amp;")
           .replaceAll("<", "&lt;")
@@ -292,20 +405,29 @@ getTextElement();
         isLiked: false,
         likes: 0,
         propertyColorLike: 'like-button no-active-like',
-       })
-      });
-    //console.log(fetchPromise);          для проверки
-
-    fetchPromise.then((response) => {
-     //console.log(response);             для проверки
-
-      // const jsonPromise = response.json();
-
-      response.json().then((responseData) => {
-        fetchPromiseArr();                    // вызываем функцию так как для получения актуального списка из API нужен новый 
-                                              // GET-запрос. Делаем это через функцию, которую мы создали при запросе данных.
-      });
+       }),
+      })
+      .then((response) => {
+        console.log('Время: ' + (Date.now() - startAt));
+        return response;
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        console.log('Время: ' + (Date.now() - startAt));
+        return response;
+      })
+      .then(() => {
+        return fetchPromiseArr();
+      })
+      .then((data) => {
+      buttonElement.disabled = false;                          // делаем кнопку неактивной на время запроса
+      buttonElement.textContent = 'Написать';   // textContent это альтернатива innerHtml, только безопсное...
     });
+    
+renderForms();
+   
 
       //const oldListElement = listElement.innerHTML; // к старому списку добавляем новый
       //listElement.innerHTML = oldListElement + `<li class="comment">
